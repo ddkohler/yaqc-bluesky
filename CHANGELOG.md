@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- `is-sensor` trait checks for sign metadata with `get_channel_signs` message
+
 ### Fixed
 - sensors no-longer force a measure at connect-time (this requires sensors to actually be traits compliant)
 

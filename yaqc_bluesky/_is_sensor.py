@@ -10,6 +10,10 @@ class IsSensor(Base):
         self._yaq_channel_names = self.yaq_client.get_channel_names()
         self._yaq_channel_units = self.yaq_client.get_channel_units()
         self._yaq_channel_shapes = self.yaq_client.get_channel_shapes()
+        try:
+            self._yaq_channel_signs = self.yaq_client.get_channel_signs()
+        except AttributeError:
+            self._yaq_channel_signs = {n: False for n in self._yaq_channel_names}
 
     def _describe(self, out):
         out = super()._describe(out)
@@ -18,6 +22,7 @@ class IsSensor(Base):
             meta["shape"] = tuple(self._yaq_channel_shapes.get(name, ()))
             meta["dtype"] = "array" if meta["shape"] else "number"
             meta["units"] = self._yaq_channel_units.get(name)
+            meta["sign"] = self._yaq_channel_signs.get(name)
             out[f"{self.name}_{name}"] = OrderedDict(self._field_metadata, **meta)
         return out
 
