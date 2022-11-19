@@ -10,9 +10,9 @@ class IsSensor(Base):
         self._yaq_channel_names = self.yaq_client.get_channel_names()
         self._yaq_channel_units = self.yaq_client.get_channel_units()
         self._yaq_channel_shapes = self.yaq_client.get_channel_shapes()
-        try:
+        if hasattr(self.yaq_client, "get_channel_signs"):
             self._yaq_channel_signs = self.yaq_client.get_channel_signs()
-        except AttributeError:
+        else:
             self._yaq_channel_signs = {n: False for n in self._yaq_channel_names}
 
     def _describe(self, out):
