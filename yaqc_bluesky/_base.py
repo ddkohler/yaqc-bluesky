@@ -10,6 +10,12 @@ from ._status import Status
 from ._property import PropertyDevice
 
 
+class CallableList(list):
+    """add callable to emulate ophyd"""
+    def __call__(self):
+        return [[p["name"]] for p in self]
+
+
 class Base:
     def __init__(self, yaq_client, *, name=None):
         self.yaq_client = yaq_client
@@ -21,7 +27,7 @@ class Base:
             self.name = name
         self.parent = None
         self._lock = threading.Lock()
-        self.children = list()
+        self.children = CallableList()
         for key, prop in self.yaq_client.properties.items():
             if key in ["destination", "position"]:
                 continue
