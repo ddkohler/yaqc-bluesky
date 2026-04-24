@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2026.4.0]
+
+### Changed
+- device children attr mimics ophyd for compatability with `bluesky-queueserver>=0.0.23`
+
 ## [2023.8.0]
 
 ### Added
@@ -84,7 +89,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/bluesky/yaqc-bluesky/compare/v2023.8.0...master
+[Unreleased]: https://github.com/bluesky/yaqc-bluesky/compare/v2026.4.0...master
+[2026.4.0]: https://github.com/bluesky/yaqc-bluesky/compare/v2023.8.0...v2026.4.0
 [2023.8.0]: https://github.com/bluesky/yaqc-bluesky/compare/v2022.4.1...v2023.8.0
 [2022.4.1]: https://github.com/bluesky/yaqc-bluesky/compare/v2022.4.0...v2022.4.1
 [2022.4.0]: https://github.com/bluesky/yaqc-bluesky/compare/v2022.1.0...v2022.4.0
