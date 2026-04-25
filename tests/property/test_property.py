@@ -1,7 +1,6 @@
 import time
 import happi
 import pathlib
-import appdirs
 import yaqc_bluesky
 from yaqd_core import testing
 import numpy as np
