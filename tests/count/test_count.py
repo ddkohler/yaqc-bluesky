@@ -21,7 +21,6 @@ __here__ = pathlib.Path(__file__).parent
 def test_simple_count():
     RE = RunEngine()
     sensor = yaqc_bluesky.Device(39425)
-    RE.subscribe(print)
     RE(count([sensor], 41))
 
 
@@ -33,7 +32,7 @@ def test_camera_count():
 
     save_path = __here__
     ts = SimpleTiledServer(readable_storage=[save_path])
-    tc = from_uri(ts.uri, timeout=0.5)
+    tc = from_uri(ts.uri)
     tw = TiledWriter(tc, batch_size=1)
 
     RE = RunEngine()
@@ -43,5 +42,5 @@ def test_camera_count():
 
 
 if __name__ == "__main__":
-    # test_simple_count()
+    test_simple_count()
     test_camera_count()
