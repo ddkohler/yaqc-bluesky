@@ -1,11 +1,12 @@
 import pathlib
 import time
 import subprocess
+import pytest
 import yaqc_bluesky
 from yaqd_core import testing
 from bluesky import RunEngine
 from bluesky.plans import count
-import databroker.v2
+import sys
 
 
 __here__ = pathlib.Path(__file__).parent
@@ -20,8 +21,10 @@ def test_simple_count():
     RE(count([sensor], 41))
 
 
+@pytest.mark.scipif(sys.version_info>=(3,12), reason="requires distutils")
 @testing.run_daemon_entry_point("fake-camera", config=__here__ / "camera-config.toml")
 def test_camera_count():
+    import databroker.v2
     cat = databroker.v2.temp()
     RE = RunEngine()
     RE.subscribe(cat.v1.insert)
