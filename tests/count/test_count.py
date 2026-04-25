@@ -21,7 +21,7 @@ def test_simple_count():
     RE(count([sensor], 41))
 
 
-@pytest.mark.scipif(sys.version_info>=(3,12), reason="requires distutils")
+@pytest.mark.skipif(sys.version_info>=(3,12), reason="requires distutils")
 @testing.run_daemon_entry_point("fake-camera", config=__here__ / "camera-config.toml")
 def test_camera_count():
     import databroker.v2
