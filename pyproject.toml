@@ -32,7 +32,9 @@ dev = ["black",
        "yaqd_core",
        "yaqd_fakes>=2022.3.0",
        "mypy",
-       "databroker<2"]
+       "tiled[server]",
+       "tiled[client]",
+       "bluesky-tiled-plugins",]
 
 [tool.flit.entrypoints."happi.containers"]
 yaq = "yaqc_bluesky._happi"

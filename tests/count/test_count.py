@@ -4,9 +4,12 @@ import subprocess
 import pytest
 import yaqc_bluesky
 from yaqd_core import testing
+
 from bluesky import RunEngine
 from bluesky.plans import count
-import sys
+from bluesky_tiled_plugins import TiledWriter
+from tiled.server import SimpleTiledServer
+from tiled.client import from_uri
 
 
 __here__ = pathlib.Path(__file__).parent
@@ -18,20 +21,27 @@ __here__ = pathlib.Path(__file__).parent
 def test_simple_count():
     RE = RunEngine()
     sensor = yaqc_bluesky.Device(39425)
+    RE.subscribe(print)
     RE(count([sensor], 41))
 
 
-@pytest.mark.skipif(sys.version_info>=(3,12), reason="requires distutils")
 @testing.run_daemon_entry_point("fake-camera", config=__here__ / "camera-config.toml")
 def test_camera_count():
-    import databroker.v2
-    cat = databroker.v2.temp()
-    RE = RunEngine()
-    RE.subscribe(cat.v1.insert)
+    """test sensor integration with bluesky/tiled"""
+
     sensor = yaqc_bluesky.Device(39425)
-    RE(count([sensor], 4))
-    cat[-1].primary.read()
+
+    save_path = __here__
+    ts = SimpleTiledServer(readable_storage=[save_path])
+    tc = from_uri(ts.uri, timeout=0.5)
+    tw = TiledWriter(tc, batch_size=1)
+
+    RE = RunEngine()
+    RE.subscribe(tw)
+    (uid,) = RE(count([sensor], 3))
+    tc[uid][f"primary/{sensor.name}_image"].read()
 
 
 if __name__ == "__main__":
-    test_simple_count()
+    # test_simple_count()
+    test_camera_count()
